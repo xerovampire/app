@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question?</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #ffe4e6, #fce7f3, #fecdd3, #fff1f2);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #4a4a4a;
+            overflow: hidden; /* Prevent scrollbars from floating hearts */
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #root {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Container controls vertical movement and opacity */
+        .heart-container {
+            position: absolute;
+            bottom: -10vh; /* Start below screen */
+            left: var(--left);
+            width: var(--size);
+            height: var(--size);
+            animation: floatUp var(--duration) linear infinite;
+            animation-delay: var(--delay);
+            opacity: 0; /* Initially hidden, handled by keyframes */
+        }
+
+        /* Inner content controls sway and rotation */
+        .heart-content {
+            width: 100%;
+            height: 100%;
+            color: #ffcad4; /* Minimal light pink */
+            animation: sway var(--sway-duration) ease-in-out infinite alternate;
+        }
+        
+        .heart-content svg {
+            width: 100%;
+            height: 100%;
+            fill: currentColor;
+            filter: drop-shadow(0 2px 4px rgba(244, 63, 94, 0.1)); /* Very subtle shadow */
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: var(--opacity);
+            }
+            90% {
+                opacity: var(--opacity);
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0% {
+                transform: rotate(-10deg) translateX(-15px);
+            }
+            100% {
+                transform: rotate(10deg) translateX(15px);
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85); /* Increased transparency */
+            backdrop-filter: blur(12px);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(244, 63, 94, 0.15);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transition: transform 0.3s ease;
+            z-index: 20;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #be185d; /* Pink-700 */
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            line-height: 1.4;
+        }
+        
+        p.love-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #db2777; /* Pink-600 */
+            margin-bottom: 2rem;
+        }
+
+        .emoji-display {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yes {
+            background-color: #f43f5e; /* Rose-500 */
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+        }
+
+        .btn-yes:hover {
+            background-color: #e11d48;
+            transform: scale(1.05);
+        }
+
+        .btn-no {
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+
+        .btn-no:hover {
+            background-color: #e5e7eb;
+            transform: scale(1.05);
+        }
+
+        /* SVG Styles */
+        .illustration {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .illustration-img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 12px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* New Animations for Hearts */
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+<!-- Babel is required to compile React/TSX in the browser -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <!-- Note: 'type="text/babel"' allows Babel to compile the TSX file -->
+    <script type="text/babel" data-type="module" data-presets="react,typescript" src="./index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
